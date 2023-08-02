@@ -9,7 +9,12 @@ const parseIp = (req) =>
   req.socket?.remoteAddress;
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "application/json" });
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS, GET",
+    "Access-Control-Max-Age": 2592000, // 30 days
+  });
   const ip = parseIp(req);
   const country = geoip.lookup(ip);
   res.write(JSON.stringify({ ip, countryCode: country?.country }));
